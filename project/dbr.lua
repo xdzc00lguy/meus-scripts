@@ -257,7 +257,7 @@ local FlySlider = MainTab:CreateSlider({
    CurrentValue = 1,
    Flag = "FlyConfig", -- A flag is the identifier for the configuration file; make sure every element has a different flag if you're using configuration saving to ensure no overlaps
    Callback = function(Value)
-    velocidade(Value)
+    FlySpeed = velocidade(Value)
    end,
 })
 
@@ -298,10 +298,12 @@ local EsferaToggle = AutoTab:CreateToggle({
                         if FlyType == "Tween" then
                             voarTS(v:GetPivot().Position, FlySpeed)
                         else
-                            voarCF(v:GetPivot().Position).Completed:Wait()
+                            voarCF(v:GetPivot().Position, FlySpeed).Completed:Wait()
                         end
                         task.wait(1)
                         fireproximityprompt(prompt)
+                        if farm then farm:Disconnect() end
+                        farm = nil
                         detect = false
                     end
                 end
