@@ -271,3 +271,42 @@ local FlyDropdown = MainTab:CreateDropdown({
     FlyType = tostring(Options)
    end,
 })
+
+local AutoTab = Window:CreateTab("Auto", 4483362458) -- Title, Image
+
+local AutoSection = AutoTab:CreateSection("Auto Farm")
+
+local farm
+local detect = false
+local EsferaToggle = AutoTab:CreateToggle({
+   Name = "Auto Farm Esferas",
+   CurrentValue = false,
+   Flag = "Farm", -- A flag is the identifier for the configuration file; make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+   Callback = function(Value)
+    if Value == true then
+        farm = RunService.Heartbeat:Connect(function()
+            for _,v in ipairs(workspace.Map:GetChildren()) do
+                if v:IsA("Model") and v.Name ~= "Pedestal" then
+                    local prompt = v:FindFirstChild("ProximityPrompt", true)
+                    local esfera = v:GetAttribute("BallNum")
+                    local espD = v:FindFirstChild("ESP", true)
+                    local numero = string.format("Esfera %s", tostring(esfera))
+                    if prompt and esfera and not espD then
+                        if detect then return end
+                        detect = true
+                        esp(v, numero, Color3.fromRGB(0,255,0))
+                        if FlyType == "Tween" then
+                            voarTS(v:GetPivot().Position, FlySpeed)
+                        else
+                            voarCF(v:GetPivot().Position).Completed:Wait()
+                        end
+                        task.wait(1)
+                        fireproximityprompt(prompt)
+                        detect = false
+                    end
+                end
+            end
+        end)
+    end
+   end,
+})
