@@ -247,15 +247,27 @@ local NoclipToggle = MainTab:CreateToggle({
 local FlySection = MainTab:CreateSection("Fly Config")
 
 local FlySpeed = velocidade(1)
+local FlyType = "Tween"
 
 local FlySlider = MainTab:CreateSlider({
    Name = "Velocidade",
    Range = {0, 8},
-   Increment = 10,
+   Increment = 1,
    Suffix = "Fly Config",
    CurrentValue = 1,
    Flag = "FlyConfig", -- A flag is the identifier for the configuration file; make sure every element has a different flag if you're using configuration saving to ensure no overlaps
    Callback = function(Value)
     velocidade(Value)
+   end,
+})
+
+local FlyDropdown = MainTab:CreateDropdown({
+   Name = "Tipo de voo",
+   Options = {"Tween", "CFrame"},
+   CurrentOption = nil,
+   MultipleOptions = false,
+   Flag = "FlyConfig", -- A flag is the identifier for the configuration file; make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+   Callback = function(Options)
+    FlyType = tostring(Options)
    end,
 })
