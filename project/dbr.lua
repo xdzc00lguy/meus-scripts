@@ -298,7 +298,9 @@ local EsferaToggle = AutoTab:CreateToggle({
                         if FlyType == "Tween" then
                             voarTS(v:GetPivot().Position, FlySpeed)
                         else
+                            noclip(true)
                             voarCF(v:GetPivot().Position, FlySpeed).Completed:Wait()
+                            noclip(false)
                         end
                         task.wait(1)
                         fireproximityprompt(prompt)
