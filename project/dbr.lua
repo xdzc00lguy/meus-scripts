@@ -234,5 +234,28 @@ local NoclipToggle = MainTab:CreateToggle({
    Flag = "noclip", -- A flag is the identifier for the configuration file; make sure every element has a different flag if you're using configuration saving to ensure no overlaps
    Callback = function(Value)
     noclip(Value)
+    local info = string.format("A função noclip está abilitado como: %s", tostring(Value))
+    Rayfield:Notify({
+        Title = "Noclip",
+        Content = info,
+        Duration = 6.5,
+        Image = 4483362458,
+    })
+   end,
+})
+
+local FlySection = MainTab:CreateSection("Fly Config")
+
+local FlySpeed = velocidade(1)
+
+local FlySlider = MainTab:CreateSlider({
+   Name = "Velocidade",
+   Range = {0, 8},
+   Increment = 10,
+   Suffix = "Fly Config",
+   CurrentValue = 1,
+   Flag = "FlyConfig", -- A flag is the identifier for the configuration file; make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+   Callback = function(Value)
+    velocidade(Value)
    end,
 })
