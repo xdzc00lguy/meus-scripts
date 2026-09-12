@@ -29,7 +29,7 @@ local function noclip(ativo)
             clip:Disconnect()
             clip = nil
         end
-        for part, colisao in pairs(colisoes) then
+        for part, colisao in pairs(colisoes) do
             if part and part.Parent then
                 part.CanCollide = colisao
             end
