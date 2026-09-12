@@ -165,7 +165,7 @@ local TeleportDropdown = MainTab:CreateDropdown({
    MultipleOptions = false,
    Flag = "Teleport", -- A flag is the identifier for the configuration file; make sure every element has a different flag if you're using configuration saving to ensure no overlaps
    Callback = function(Options)
-    print(Options)
+    print(Options[1])
    end,
 })
 
