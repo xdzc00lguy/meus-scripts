@@ -165,7 +165,20 @@ local TeleportDropdown = MainTab:CreateDropdown({
    MultipleOptions = false,
    Flag = "Teleport", -- A flag is the identifier for the configuration file; make sure every element has a different flag if you're using configuration saving to ensure no overlaps
    Callback = function(Options)
-    print(Options[1])
+    for _,v in ipairs(Players:GetPlayers()) do
+        if v.DisplayName == Options[1] then
+            if v.Character or v.CharacterAdded:Wait() then
+                local root = v.Character:FindFirstChild("HumanoidRootPart")
+                if TeleportType == "TeleportBypassTS" then
+                    voarTS(root.Position, FlySpeed)
+                elseif TeleportType == "TeleportBypassCF" then
+                    voarCF(root.Position, FlySpeed)
+                else
+                    rootPart.CFrame = root.CFrame
+                end
+            end
+        end
+    end
    end,
 })
 
