@@ -102,12 +102,64 @@ local function voarTS(destino, vel)
     workspace.Gravity = oldG
 end
 
+local function esp(part, texto, cor)
+    local BillboardGui = Instance.new("BillboardGui")
+    local TextLabel = Instance.new("TextLabel")
+    BillboardGui.Parent = part
+    BillboardGui.AlwaysOnTop = true
+    BillboardGui.Size = UDim2.new(0, 50, 0, 50)
+    BillboardGui.StudsOffset = Vector3.new(0, 2, 0)
+    BillboardGui.Name = "ESP"
+    TextLabel.Parent = BillboardGui
+    TextLabel.Text = texto
+    TextLabel.TextColor3 = cor
+    TextLabel.Size = UDim2.new(1, 0, 1, 0)
+    TextLabel.BackgroundTransparency = 1
+    return BillboardGui
+end
+
 --[[
 Configuracoes simples do menu
 ]]
 
 local FlySpeed = velocidade(1)
 local TeleportType = "TeleportInstant"
+local ColorEsp = Color3.fromRGB(255, 255, 255)
+
+local espAtivo
+local function marcarPlayersEsp(ativo)
+    if ativo then
+        espAtivo = RunService.Heartbeat:Connect(function()
+            for _,v in ipairs(Players:GetPlayers()) do
+                if v.UserId ~= lp.UserId then
+                    if v.Character or v.CharacterAdded:Wait() then
+                        local head = v.Character.head
+                        local espD = v:FindFirstChild("ESP")
+                        if head and not espD then
+                            esp(head, v.DisplayName, ColorEsp)
+                        end
+                    end
+                end
+            end
+        end)
+    else
+        if espAtivo then
+            espAtivo:Disconnect()
+            espAtivo = nil
+        end
+        for _,v in ipairs(Players:GetPlayers()) do
+            if v.UserId ~= lp.UserId then
+                if v.Character or v.CharacterAdded:Wait() then
+                    local head = v.Character.head
+                    local espD = v:FindFirstChild("ESP")
+                    if espD then
+                        espD:Destroy()
+                    end
+                end
+            end
+        end
+    end
+end
 
 local teleportUsuarios = {}
 local function detectPlayers()
@@ -200,6 +252,17 @@ local TeleportButton = MainTab:CreateButton({
    end,
 })
 
+local VisualSection = MainTab:CreateSection("Visual")
+
+local Toggle = Tab:CreateToggle({
+   Name = "Toggle Example",
+   CurrentValue = false,
+   Flag = "Toggle1", -- A flag is the identifier for the configuration file; make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+   Callback = function(Value)
+    marcarPlayersEsp(Value)
+   end,
+})
+
 local ConfigTab = Window:CreateTab("Config", 4483362458) -- Title, Image
 
 local ConfigTpSection = ConfigTab:CreateSection("Configurações do Teleport")
@@ -226,4 +289,15 @@ local TypeTpDropdown = ConfigTab:CreateDropdown({
     print(Options[1])
     TeleportType = tostring(Options[1])
    end,
+})
+
+local EspSection = ConfigTab:CreateSection("Configuração ESP")
+
+local EspColorPicker = ConfigTab:CreateColorPicker({
+    Name = "Cor de ESP",
+    Color = Color3.fromRGB(255,255,255),
+    Flag = "CorESP", -- A flag is the identifier for the configuration file; make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+    Callback = function(Value)
+        ColorEsp = Value
+    end
 })
