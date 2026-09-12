@@ -173,7 +173,7 @@ local TeleportDropdown = MainTab:CreateDropdown({
                     voarTS(root.Position, FlySpeed)
                 elseif TeleportType == "TeleportBypassCF" then
                     voarCF(root.Position, FlySpeed)
-                else
+                elseif TeleportType == "TeleportInstant" then
                     rootPart.CFrame = root.CFrame
                 end
             end
@@ -218,6 +218,6 @@ local TypeTpDropdown = ConfigTab:CreateDropdown({
    MultipleOptions = false,
    Flag = "ConfigTp", -- A flag is the identifier for the configuration file; make sure every element has a different flag if you're using configuration saving to ensure no overlaps
    Callback = function(Options)
-    TeleportType = tostring(Options)
+    TeleportType = Options[1]
    end,
 })
