@@ -141,7 +141,7 @@ local MainToggle = MainTab:CreateToggle({
         Title = "Noclip",
         Content = string.format("A função de noclip está abilitado como: %s", tostring(Value)),
         Duration = 6.5,
-        Image = 
+        Image = 4483362458,
     })
    end,
 })
