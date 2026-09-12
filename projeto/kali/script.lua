@@ -105,6 +105,15 @@ Configuracoes simples do menu
 local FlySpeed = velocidade(1)
 local TeleportType = "TeleportInstant"
 
+local teleportUsuarios = {}
+local function detectPlayers()
+    for _,v in ipairs(Players:GetPlayers()) do
+        if v.UserId ~= lp.UserId then
+            table.insert(teleportUsuarios, v)
+        end
+    end
+end
+
 local Window = Rayfield:CreateWindow({
    Name = "Projeto Kali",
    Icon = 0, -- Icon in Topbar. Can use Lucide Icons (string) or Roblox Image (number). 0 to use no icon (default).
@@ -146,21 +155,11 @@ local NoclipToggle = MainTab:CreateToggle({
    end,
 })
 
-local TeleportSection = MainTab:CreateSection("Teleport")
-
-local tabelaUsuarios = {}
-local function detectPlayer()
-    for _,v in ipairs(Players:GetPlayers()) do
-        if v.UserId ~= lp.UserId then
-            table.insert(tabela, v)
-        end
-    end
-end
-detectPlayer()
+local TpSection = MainTab:CreateSection("Teleport")
 
 local TeleportDropdown = MainTab:CreateDropdown({
    Name = "Teleportar",
-   Options = tabelaUsuarios,
+   Options = teleportUsuarios,
    CurrentOption = nil,
    MultipleOptions = false,
    Flag = "Teleport", -- A flag is the identifier for the configuration file; make sure every element has a different flag if you're using configuration saving to ensure no overlaps
@@ -172,7 +171,7 @@ local TeleportDropdown = MainTab:CreateDropdown({
 local TeleportButton = MainTab:CreateButton({
    Name = "Atualizar lista de usuários",
    Callback = function()
-    detectPlayer()
+    detectPlayers()
     Rayfield:Notify({
         Title = "Teleport",
         Content = string.format("A lista de usuários foi atualizada com sucesso!"),
