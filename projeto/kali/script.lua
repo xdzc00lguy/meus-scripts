@@ -134,7 +134,7 @@ local function marcarPlayersEsp(ativo)
                 if v.UserId ~= lp.UserId then
                     if v.Character or v.CharacterAdded:Wait() then
                         local head = v.Character.head
-                        local espD = v:FindFirstChild("ESP")
+                        local espD = head and head:FindFirstChild("ESP")
                         if head and not espD then
                             esp(head, v.DisplayName, ColorEsp)
                         end
@@ -151,7 +151,7 @@ local function marcarPlayersEsp(ativo)
             if v.UserId ~= lp.UserId then
                 if v.Character or v.CharacterAdded:Wait() then
                     local head = v.Character.head
-                    local espD = v:FindFirstChild("ESP")
+                    local espD = head and head:FindFirstChild("ESP")
                     if espD then
                         espD:Destroy()
                     end
