@@ -109,10 +109,11 @@ local teleportUsuarios = {}
 local function detectPlayers()
     for _,v in ipairs(Players:GetPlayers()) do
         if v.UserId ~= lp.UserId then
-            table.insert(teleportUsuarios, v.DisplayName)
+            table.insert(teleportUsuarios, tostring(v.DisplayName))
         end
     end
 end
+detectPlayers()
 
 local Window = Rayfield:CreateWindow({
    Name = "Projeto Kali",
