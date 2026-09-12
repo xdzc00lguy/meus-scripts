@@ -90,13 +90,13 @@ local function voarTS(destino, vel)
     local ti = TweenInfo.new(tempo, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut)
     local oldG = workspace.Gravity
     workspace.Gravity = 0
-    local subida = TweenService:Create(rootPart, infSubPos, {CFrame = rootPart.CFrame * CFrame.new(0, 25, 0)})
+    local subida = TweenService:Create(rootPart, infSubPos, {CFrame = CFrame.new(rootPart.Position + Vector3.new(0, 25, 0))})
     subida:Play()
     subida.Completed:Wait()
     local voar = TweenService:Create(rootPart, ti, {CFrame = CFrame.new(dest)})
     voar:Play()
     voar.Completed:Wait()
-    local descida = TweenService:Create(rootPart, infSubPos, {CFrame = rootPart.CFrame * CFrame.new(0, -20, 0)})
+    local descida = TweenService:Create(rootPart, infSubPos, {CFrame = CFrame.new(rootPart.Position + Vector3.new(0, -20, 0))})
     descida:Play()
     descida.Completed:Wait()
     workspace.Gravity = oldG
