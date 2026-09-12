@@ -1,3 +1,4 @@
+local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
 local TweenService = game:GetService("TweenService")
@@ -96,3 +97,59 @@ local function voarTS(destino, vel)
     descida.Completed:Wait()
     rootPart.Anchored = false
 end
+
+--[[
+Configuracoes simples do menu
+]]
+
+local FlySpeed = velocidade(1)
+local TeleportType = "TeleportInstant"
+
+local Window = Rayfield:CreateWindow({
+   Name = "Projeto Kali",
+   Icon = 0, -- Icon in Topbar. Can use Lucide Icons (string) or Roblox Image (number). 0 to use no icon (default).
+   LoadingTitle = "Projetinho Kali",
+   LoadingSubtitle = "by aiko",
+   ShowText = "Menu", -- for mobile users to unhide Rayfield, change if you'd like
+   Theme = "Default", -- Check https://docs.sirius.menu/rayfield/configuration/themes
+
+   ToggleUIKeybind = "K", -- The keybind to toggle the UI visibility (string like "K" or Enum.KeyCode)
+
+   DisableRayfieldPrompts = false,
+   DisableBuildWarnings = false, -- Prevents Rayfield from emitting warnings when the script has a version mismatch with the interface.
+
+   -- ScriptID = "sid_xxxxxxxxxxxx", -- Your Script ID from developer.sirius.menu — enables analytics, managed keys, and script hosting
+
+   ConfigurationSaving = {
+      Enabled = true,
+      FolderName = nil, -- Create a custom folder for your hub/game
+      FileName = "Big Hub"
+   }
+})
+
+local ConfigTab = Window:CreateTab("Config", 4483362458) -- Title, Image
+
+local ConfigTpSection = ConfigTab:CreateSection("Configurações do Teleport")
+
+local FlySlider = ConfigTab:CreateSlider({
+   Name = "Velocidade de teleport",
+   Range = {0, 10},
+   Increment = 1,
+   Suffix = "FlyTp",
+   CurrentValue = 1,
+   Flag = "ConfigTp", -- A flag is the identifier for the configuration file; make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+   Callback = function(Value)
+    FlySpeed = velocidade(Value)
+   end,
+})
+
+local TypeTpDropdown = ConfigTab:CreateDropdown({
+   Name = "Tipo de teleport",
+   Options = {"TeleportBypassTS", "TeleportBypassCF", "TeleportInstant"},
+   CurrentOption = nil,
+   MultipleOptions = false,
+   Flag = "ConfigTp", -- A flag is the identifier for the configuration file; make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+   Callback = function(Options)
+    TeleportType = tostring(Options)
+   end,
+})
