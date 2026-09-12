@@ -129,9 +129,9 @@ local Window = Rayfield:CreateWindow({
 
 local MainTab = Window:CreateTab("Aba Principal", 4483362458) -- Title, Image
 
-local MainSection = MainTab:CreateSection("Principal")
+local NoclipSection = MainTab:CreateSection("Principal")
 
-local MainToggle = MainTab:CreateToggle({
+local NoclipToggle = MainTab:CreateToggle({
    Name = "Noclip",
    CurrentValue = false,
    Flag = "Noclip", -- A flag is the identifier for the configuration file; make sure every element has a different flag if you're using configuration saving to ensure no overlaps
@@ -140,6 +140,42 @@ local MainToggle = MainTab:CreateToggle({
     Rayfield:Notify({
         Title = "Noclip",
         Content = string.format("A função de noclip está habilitado como: %s", tostring(Value)),
+        Duration = 6.5,
+        Image = 4483362458,
+    })
+   end,
+})
+
+local TeleportSection = MainTab:CreateSection("Teleport")
+
+local tabelaUsuarios = {}
+local function detectPlayer()
+    for _,v in ipairs(Players:GetPlayers()) do
+        if v.UserId ~= lp.UserId then
+            table.insert(tabela, v)
+        end
+    end
+end
+detectPlayer()
+
+local TeleportDropdown = MainTab:CreateDropdown({
+   Name = "Teleportar",
+   Options = tabelaUsuarios,
+   CurrentOption = nil,
+   MultipleOptions = false,
+   Flag = "Teleport", -- A flag is the identifier for the configuration file; make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+   Callback = function(Options)
+    print(Options)
+   end,
+})
+
+local TeleportButton = MainTab:CreateButton({
+   Name = "Atualizar lista de usuários",
+   Callback = function()
+    detectPlayer()
+    Rayfield:Notify({
+        Title = "Teleport",
+        Content = string.format("A lista de usuários foi atualizada com sucesso!"),
         Duration = 6.5,
         Image = 4483362458,
     })
