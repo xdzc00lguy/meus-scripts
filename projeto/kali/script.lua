@@ -133,7 +133,7 @@ local function marcarPlayersEsp(ativo)
             for _,v in ipairs(Players:GetChildren()) do
                 if v.UserId ~= lp.UserId then
                     if v.Character or v.CharacterAdded:Wait() then
-                        local head = v.Character.head
+                        local head = v.Character.Head
                         local espD = head and head:FindFirstChild("ESP")
                         if head and not espD then
                             esp(head, v.DisplayName, ColorEsp)
@@ -150,7 +150,7 @@ local function marcarPlayersEsp(ativo)
         for _,v in ipairs(Players:GetChildren()) do
             if v.UserId ~= lp.UserId then
                 if v.Character or v.CharacterAdded:Wait() then
-                    local head = v.Character.head
+                    local head = v.Character.Head
                     local espD = head and head:FindFirstChild("ESP")
                     if espD then
                         espD:Destroy()
