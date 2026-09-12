@@ -111,11 +111,13 @@ local TeleportType = "TeleportInstant"
 
 local teleportUsuarios = {}
 local function detectPlayers()
+    table.clear(teleportUsuarios)
     for _,v in ipairs(Players:GetPlayers()) do
         if v.UserId ~= lp.UserId then
             table.insert(teleportUsuarios, tostring(v.DisplayName))
         end
     end
+    TeleportDropdown:Refresh(teleportUsuarios)
 end
 detectPlayers()
 
