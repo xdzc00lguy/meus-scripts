@@ -109,7 +109,7 @@ local teleportUsuarios = {}
 local function detectPlayers()
     for _,v in ipairs(Players:GetPlayers()) do
         if v.UserId ~= lp.UserId then
-            table.insert(teleportUsuarios, v)
+            table.insert(teleportUsuarios, v.DisplayName)
         end
     end
 end
