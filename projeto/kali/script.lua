@@ -139,7 +139,7 @@ local MainToggle = MainTab:CreateToggle({
     noclip(Value)
     Rayfield:Notify({
         Title = "Noclip",
-        Content = string.format("A função de noclip está abilitado como: %s", tostring(Value)),
+        Content = string.format("A função de noclip está habilitado como: %s", tostring(Value)),
         Duration = 6.5,
         Image = 4483362458,
     })
