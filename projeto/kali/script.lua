@@ -118,7 +118,6 @@ local function detectPlayers()
         end
     end
 end
-detectPlayers()
 
 local Window = Rayfield:CreateWindow({
    Name = "Projeto Kali",
