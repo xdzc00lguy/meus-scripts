@@ -127,6 +127,25 @@ local Window = Rayfield:CreateWindow({
    }
 })
 
+local MainTab = Window:CreateTab("Aba Principal", 4483362458) -- Title, Image
+
+local MainSection = MainTab:CreateSection("Principal")
+
+local MainToggle = MainTab:CreateToggle({
+   Name = "Noclip",
+   CurrentValue = false,
+   Flag = "Noclip", -- A flag is the identifier for the configuration file; make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+   Callback = function(Value)
+    noclip(Value)
+    Rayfield:Notify({
+        Title = "Noclip",
+        Content = string.format("A função de noclip está abilitado como: %s", tostring(Value)),
+        Duration = 6.5,
+        Image = 
+    })
+   end,
+})
+
 local ConfigTab = Window:CreateTab("Config", 4483362458) -- Title, Image
 
 local ConfigTpSection = ConfigTab:CreateSection("Configurações do Teleport")
