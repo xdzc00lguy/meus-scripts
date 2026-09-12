@@ -255,9 +255,9 @@ local TeleportButton = MainTab:CreateButton({
 local VisualSection = MainTab:CreateSection("Visual")
 
 local EspToggle = MainTab:CreateToggle({
-   Name = "ESP",
+   Name = "ESP Players",
    CurrentValue = false,
-   Flag = "EspToggle", -- A flag is the identifier for the configuration file; make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+   Flag = "EspPlayers", -- A flag is the identifier for the configuration file; make sure every element has a different flag if you're using configuration saving to ensure no overlaps
    Callback = function(Value)
     marcarPlayersEsp(Value)
    end,
@@ -271,9 +271,9 @@ local FlySlider = ConfigTab:CreateSlider({
    Name = "Velocidade de teleport",
    Range = {0, 10},
    Increment = 1,
-   Suffix = "FlyTp",
+   Suffix = "Velocidade",
    CurrentValue = 1,
-   Flag = "ConfigTp", -- A flag is the identifier for the configuration file; make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+   Flag = "ConfigTpSlider", -- A flag is the identifier for the configuration file; make sure every element has a different flag if you're using configuration saving to ensure no overlaps
    Callback = function(Value)
     FlySpeed = velocidade(Value)
    end,
@@ -284,7 +284,7 @@ local TypeTpDropdown = ConfigTab:CreateDropdown({
    Options = {"TeleportBypassTS", "TeleportBypassCF", "TeleportInstant"},
    CurrentOption = nil,
    MultipleOptions = false,
-   Flag = "ConfigTp", -- A flag is the identifier for the configuration file; make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+   Flag = "ConfigTpType", -- A flag is the identifier for the configuration file; make sure every element has a different flag if you're using configuration saving to ensure no overlaps
    Callback = function(Options)
     print(Options[1])
     TeleportType = tostring(Options[1])
