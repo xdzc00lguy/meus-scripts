@@ -254,10 +254,10 @@ local TeleportButton = MainTab:CreateButton({
 
 local VisualSection = MainTab:CreateSection("Visual")
 
-local Toggle = Tab:CreateToggle({
-   Name = "Toggle Example",
+local EspToggle = MainTab:CreateToggle({
+   Name = "ESP",
    CurrentValue = false,
-   Flag = "Toggle1", -- A flag is the identifier for the configuration file; make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+   Flag = "EspToggle", -- A flag is the identifier for the configuration file; make sure every element has a different flag if you're using configuration saving to ensure no overlaps
    Callback = function(Value)
     marcarPlayersEsp(Value)
    end,
