@@ -117,9 +117,6 @@ local function detectPlayers()
             table.insert(teleportUsuarios, tostring(v.DisplayName))
         end
     end
-    if TeleportDropdown then
-        TeleportDropdown:Refresh(teleportUsuarios)
-    end
 end
 detectPlayers()
 
@@ -194,6 +191,7 @@ local TeleportButton = MainTab:CreateButton({
    Name = "Atualizar lista de usuários",
    Callback = function()
     detectPlayers()
+    TeleportDropdown:Refresh(teleportUsuarios)
     Rayfield:Notify({
         Title = "Teleport",
         Content = string.format("A lista de usuários foi atualizada com sucesso!"),
