@@ -130,7 +130,7 @@ local espAtivo
 local function marcarPlayersEsp(ativo)
     if ativo then
         espAtivo = RunService.Heartbeat:Connect(function()
-            for _,v in ipairs(Players:GetPlayers()) do
+            for _,v in ipairs(Players:GetChildren()) do
                 if v.UserId ~= lp.UserId then
                     if v.Character or v.CharacterAdded:Wait() then
                         local head = v.Character.head
@@ -147,7 +147,7 @@ local function marcarPlayersEsp(ativo)
             espAtivo:Disconnect()
             espAtivo = nil
         end
-        for _,v in ipairs(Players:GetPlayers()) do
+        for _,v in ipairs(Players:GetChildren()) do
             if v.UserId ~= lp.UserId then
                 if v.Character or v.CharacterAdded:Wait() then
                     local head = v.Character.head
