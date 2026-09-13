@@ -165,7 +165,7 @@ local detectPcAtivo
 local function detectPc(ativo)
     if ativo then
         detectPcAtivo = RunService.Heartbeat:Connect(function()
-            for _,v in ipairs(workspace:GetDescendents()) do
+            for _,v in ipairs(workspace:GetDescendants()) do
                 if v:IsA("Model") and v.Name == "ComputerTable" then
                     local tela = v:FindFirstChild("Screen")
                     local espD = tela and tela:FindFirstChild("ESP")
@@ -184,7 +184,7 @@ local function detectPc(ativo)
             detectPcAtivo:Disconnect()
             detectPcAtivo = nil
         end
-        for _,v in ipairs(workspace:GetDescendents()) do
+        for _,v in ipairs(workspace:GetDescendants()) do
             if v:IsA("Model") and v.Name == "ComputerTable" then
                 local espD = v:FindFirstChild("ESP")
                 if espD then
