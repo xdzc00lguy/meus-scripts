@@ -170,8 +170,9 @@ local function detectPc(ativo)
                     local tela = v:FindFirstChild("Screen")
                     local espD = tela and tela:FindFirstChild("ESP")
                     if espD then
-                        espD:Destroy()
-                        return
+                        local corPc = tela.Color
+                        local textL = espD:FindFirstChildOfClass("TextLabel")
+                        textL.TextColor3 = corPc
                     else
                         local corPc = tela.Color
                         esp(tela, "Computador", corPc)
