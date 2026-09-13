@@ -297,7 +297,7 @@ local EspToggle = MainTab:CreateToggle({
    end,
 })
 
-local DetectPcEspToggle = Tab:CreateToggle({
+local DetectPcEspToggle = MainTab:CreateToggle({
    Name = "ESP Pc",
    CurrentValue = false,
    Flag = "EspPc", -- A flag is the identifier for the configuration file; make sure every element has a different flag if you're using configuration saving to ensure no overlaps
