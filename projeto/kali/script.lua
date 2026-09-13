@@ -193,9 +193,8 @@ local function detectPc(ativo)
                     if espD and espDH then
                         local corPc = tela.Color
                         local textL = espD:FindFirstChildOfClass("TextLabel")
-                        local outCl = espDH:FindFirstChildOfClass("Highlight")
                         textL.TextColor3 = corPc
-                        outCl.OutlineColor = corPc
+                        espDH.OutlineColor = corPc
                     else
                         local corPc = tela.Color
                         esp(tela, "Computador", corPc)
