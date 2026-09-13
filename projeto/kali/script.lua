@@ -187,7 +187,8 @@ local function detectPc(ativo)
         end
         for _,v in ipairs(workspace:GetDescendants()) do
             if v:IsA("Model") and v.Name == "ComputerTable" then
-                local espD = v:FindFirstChild("ESP")
+                local tela = v:FindFirstChild("Screen")
+                local espD = tela and tela:FindFirstChild("ESP")
                 if espD then
                     espD:Destroy()
                 end
