@@ -164,12 +164,13 @@ end
 local detectPcAtivo
 local function detectPc(ativo)
     if ativo then
+        local ultimoUpdate
         detectPcAtivo = RunService.Heartbeat:Connect(function()
             local agora = os.clock()
             if detectPcAtivo.ultimoUpdate and agora - detectPcAtivo.ultimoUpdate < 1 then
                 return
             end
-            detectPcAtivo.ultimoUpdate = agora
+            ultimoUpdate = agora
             for _,v in ipairs(workspace:GetDescendants()) do
                 if v:IsA("Model") and v.Name == "ComputerTable" then
                     local tela = v:FindFirstChild("Screen")
