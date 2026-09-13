@@ -162,12 +162,12 @@ local function marcarPlayersEsp(ativo)
 end
 
 local detectPcAtivo
+local ultimoUpdate = 0
 local function detectPc(ativo)
     if ativo then
-        local ultimoUpdate
         detectPcAtivo = RunService.Heartbeat:Connect(function()
             local agora = os.clock()
-            if detectPcAtivo.ultimoUpdate and agora - detectPcAtivo.ultimoUpdate < 1 then
+            if ultimoUpdate and agora - ultimoUpdate < 1 then
                 return
             end
             ultimoUpdate = agora
