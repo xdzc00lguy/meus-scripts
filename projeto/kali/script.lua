@@ -72,11 +72,11 @@ local function voarCF(destino, vel)
             return
         end
         rootPart.Velocity = Vector3.new(0, 0, 0)
-        rootPart.Anchored = true
+        rootPart.Anchored = false
         local direcao = vetorDistancia.Unit
         local novaPos = rootPart.Position + (direcao * vm * tempo)
         rootPart.CFrame = CFrame.new(novaPos)
-        rootPart.Anchored = false
+        rootPart.Anchored = true
     end)
     return { Completed = event.Event }
 end
