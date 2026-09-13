@@ -189,13 +189,17 @@ local function detectPc(ativo)
                 if v:IsA("Model") and v.Name == "ComputerTable" then
                     local tela = v:FindFirstChild("Screen")
                     local espD = tela and tela:FindFirstChild("ESP")
-                    if espD then
+                    local espDH = v:FindFirstChild("ESPHighlight")
+                    if espD and espDH then
                         local corPc = tela.Color
                         local textL = espD:FindFirstChildOfClass("TextLabel")
+                        local outCl = espDH:FindFirstChildOfClass("Highlight")
                         textL.TextColor3 = corPc
+                        outCl.OutlineColor = corPc
                     else
                         local corPc = tela.Color
                         esp(tela, "Computador", corPc)
+                        espHighlight(v, corPc)
                     end
                 end
             end
@@ -209,8 +213,10 @@ local function detectPc(ativo)
             if v:IsA("Model") and v.Name == "ComputerTable" then
                 local tela = v:FindFirstChild("Screen")
                 local espD = tela and tela:FindFirstChild("ESP")
-                if espD then
+                local espDH = v:FindFirstChild("ESPHighlight")
+                if espD and espDH then
                     espD:Destroy()
+                    espDH:Destroy()
                 end
             end
         end
