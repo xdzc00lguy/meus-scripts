@@ -118,6 +118,16 @@ local function esp(part, texto, cor)
     return BillboardGui
 end
 
+local function espHighlight(part, cor)
+    local highlight = Instance.new("Highlight")
+    highlight.Name = "ESPHighlight"
+    highlight.OutlineColor = cor
+    highlight.FillTransparency = 1
+    highlight.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
+    highlight.Parent = part
+    return highlight
+end
+
 --[[
 Configuracoes simples do menu
 ]]
@@ -134,9 +144,11 @@ local function marcarPlayersEsp(ativo)
                 if v.UserId ~= lp.UserId then
                     if v.Character or v.CharacterAdded:Wait() then
                         local head = v.Character.Head
+                        local espDH = v.Character:FindFirstChild("ESPHighlight")
                         local espD = head and head:FindFirstChild("ESP")
-                        if head and not espD then
+                        if head and not espD and not espDH then
                             esp(head, v.DisplayName, ColorEsp)
+                            espHighlight(v.Character, ColorEsp)
                         end
                     end
                 end
@@ -151,9 +163,11 @@ local function marcarPlayersEsp(ativo)
             if v.UserId ~= lp.UserId then
                 if v.Character or v.CharacterAdded:Wait() then
                     local head = v.Character.Head
+                    local espDH = v.Character:FindFirstChild("ESPHighlight")
                     local espD = head and head:FindFirstChild("ESP")
                     if espD then
                         espD:Destroy()
+                        espDH:Destroy()
                     end
                 end
             end
