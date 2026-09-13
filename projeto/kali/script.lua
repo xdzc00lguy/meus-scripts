@@ -161,6 +161,40 @@ local function marcarPlayersEsp(ativo)
     end
 end
 
+local detectPcAtivo
+local function detectPc(ativo)
+    if ativo then
+        detectPcAtivo = RunService.Heartbeat:Connect(function()
+            for _,v in ipairs(workspace:GetDescendents()) do
+                if v:IsA("Model") and v.Name == "ComputerTable" then
+                    local tela = v:FindFirstChild("Screen")
+                    local espD = tela and tela:FindFirstChild("ESP")
+                    if espD then
+                        espD:Destroy()
+                        return
+                    else
+                        local corPc = tela.Color
+                        esp(tela, "Computador", corPc)
+                    end
+                end
+            end
+        end)
+    else
+        if detectPcAtivo then
+            detectPcAtivo:Disconnect()
+            detectPcAtivo = nil
+        end
+        for _,v in ipairs(workspace:GetDescendents()) do
+            if v:IsA("Model") and v.Name == "ComputerTable" then
+                local espD = v:FindFirstChild("ESP")
+                if espD then
+                    espD:Destroy()
+                end
+            end
+        end
+    end
+end
+
 local teleportUsuarios = {}
 local function detectPlayers()
     table.clear(teleportUsuarios)
@@ -260,6 +294,15 @@ local EspToggle = MainTab:CreateToggle({
    Flag = "EspPlayers", -- A flag is the identifier for the configuration file; make sure every element has a different flag if you're using configuration saving to ensure no overlaps
    Callback = function(Value)
     marcarPlayersEsp(Value)
+   end,
+})
+
+local DetectPcEspToggle = Tab:CreateToggle({
+   Name = "ESP Pc",
+   CurrentValue = false,
+   Flag = "EspPc", -- A flag is the identifier for the configuration file; make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+   Callback = function(Value)
+    detectPc(Value)
    end,
 })
 
