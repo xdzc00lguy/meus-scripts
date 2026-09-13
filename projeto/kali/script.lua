@@ -166,7 +166,7 @@ local function detectPc(ativo)
     if ativo then
         detectPcAtivo = RunService.Heartbeat:Connect(function()
             local agora = os.clock()
-            if detectPcAtivo.ultimoUpdate and agora - detectPcAtivo.ultimoUpdate < 0.5 then
+            if detectPcAtivo.ultimoUpdate and agora - detectPcAtivo.ultimoUpdate < 1 then
                 return
             end
             detectPcAtivo.ultimoUpdate = agora
