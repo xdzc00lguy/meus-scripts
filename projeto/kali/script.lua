@@ -293,7 +293,7 @@ local SpeedHackSlider = MainTab:CreateSlider({
    end,
 })
 
-local SpeedHackToggle = Tab:CreateToggle({
+local SpeedHackToggle = MainTab:CreateToggle({
    Name = "Ativar Speed Hack",
    CurrentValue = false,
    Flag = "SpeedHackToggle", -- A flag is the identifier for the configuration file; make sure every element has a different flag if you're using configuration saving to ensure no overlaps
