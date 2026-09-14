@@ -232,6 +232,29 @@ local function detectPlayers()
     end
 end
 
+local speedAtivo
+local oldSpeed = hum.WalkSpeed
+local speed = 16
+local speedCounter = 0
+local function speedHack(ativo)
+    if ativo then
+        local agora = os.clock()
+        speedAtivo = RunService.Heartbeat:Connect(function()
+            if speedCounter and agora - speedCounter < 2 then
+                return
+            end
+            speedCounter = agora
+            hum.WalkSpeed = speed
+        end)
+    else
+        if speedAtivo then
+            speedAtivo:Disconnect()
+            speedAtivo = nil
+        end
+        hum.WalkSpeed = oldSpeed
+    end
+end
+
 local Window = Rayfield:CreateWindow({
    Name = "Projeto Kali",
    Icon = 0, -- Icon in Topbar. Can use Lucide Icons (string) or Roblox Image (number). 0 to use no icon (default).
@@ -256,7 +279,28 @@ local Window = Rayfield:CreateWindow({
 
 local MainTab = Window:CreateTab("Aba Principal", 4483362458) -- Title, Image
 
-local NoclipSection = MainTab:CreateSection("Principal")
+local MainSection = MainTab:CreateSection("Principal")
+
+local SpeedHackSlider = MainTab:CreateSlider({
+   Name = "Speed Hack",
+   Range = {0, 100},
+   Increment = 1,
+   Suffix = "Velocidade",
+   CurrentValue = 16,
+   Flag = "SpeedHackSlider", -- A flag is the identifier for the configuration file; make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+   Callback = function(Value)
+    speed = Value
+   end,
+})
+
+local SpeedHackToggle = Tab:CreateToggle({
+   Name = "Ativar Speed Hack",
+   CurrentValue = false,
+   Flag = "SpeedHackToggle", -- A flag is the identifier for the configuration file; make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+   Callback = function(Value)
+    speedHack(Value)
+   end,
+})
 
 local NoclipToggle = MainTab:CreateToggle({
    Name = "Noclip",
