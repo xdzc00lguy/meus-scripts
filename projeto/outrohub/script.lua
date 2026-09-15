@@ -31,7 +31,7 @@ end
 local function criarNeuronio(entrada)
     local neuronio = { pesos = {}, bias = math.random() * 2 - 1 }
     for nome, valor in pairs(entrada) do
-        neuronio[pesos] = math.random() * 2 - 1
+        neuronio.pesos[nome] = math.random() * 2 - 1
     end
     return neuronio
 end
@@ -65,7 +65,7 @@ local function prever(entrada)
     end
     local resultado = {}
     for nome, neuronio in pairs(saidas) do
-        resultado[i] = calculo(neuronio, entrada)
+        resultado[nome] = calculo(neuronio, entrada)
     end
     return resultado, oculta
 end
@@ -80,7 +80,7 @@ local function recompensar(entrada, acao, recompensa)
             neuronio.pesos[i] += erro * taxa * oculta[i]
         end
         neuronio.bias += erro * taxa
-        local erros_ocultos
+        local erros_ocultos = {}
         for i = 0, neuronios_ocultos do
             erros_ocultos[i] = erro * neuronio.pesos[i] * derivado(oculta[i])
         end
