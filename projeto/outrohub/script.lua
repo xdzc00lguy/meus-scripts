@@ -44,12 +44,12 @@ local function calculo(neuronio, entrada)
     return sigmoid(soma)
 end
 
-local ocultos
+local ocultos = {}
 for i = 0, neuronios_ocultos do
     ocultos[i] = criarNeuronio(entradas)
 end
 
-local entradaSaidas
+local entradaSaidas = {}
 for i = 0, neuronios_ocultos do
     entradaSaidas[i] = 0
 end
@@ -59,11 +59,11 @@ for nome, neuronio in pairs(saidas) do
 end
 
 local function prever(entrada)
-    local oculta
+    local oculta = {}
     for i = 0, neuronios_ocultos do
         oculta[i] = calculo(ocultos[i], entrada)
     end
-    local resultado
+    local resultado = {}
     for nome, neuronio in pairs(saidas) do
         resultado[i] = calculo(neuronio, entrada)
     end
@@ -77,7 +77,7 @@ local function recompensar(entrada, acao, recompensa)
     local erro = (alvo - resultado[acao]) * derivado(resultado[acao])
     if erro ~= 0 then
         for i = 0, neuronios_ocultos do
-            neuronio.pesos[i] += erro * valor * oculta[i]
+            neuronio.pesos[i] += erro * taxa * oculta[i]
         end
         neuronio.bias += erro * taxa
         local erros_ocultos
