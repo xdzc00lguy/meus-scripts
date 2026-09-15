@@ -382,7 +382,7 @@ local HackPcToggle = MainTab:CreateToggle({
     hackingpc(Value)
     Rayfield:Notify({
         Title = "Hack PC",
-        Content = string.format("A função hack pc está habilitado como %s", totring(Value))
+        Content = string.format("A função hack pc está habilitado como %s", totring(Value)),
         Duration = 6.5,
         Image = 4483362458,
     })
