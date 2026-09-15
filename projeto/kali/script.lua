@@ -271,11 +271,11 @@ local function hackingpc(ativo)
 end
 
 local Window = Rayfield:CreateWindow({
-   Name = "Projeto Kali",
+   Name = "Flee The Facility HUB",
    Icon = 0, -- Icon in Topbar. Can use Lucide Icons (string) or Roblox Image (number). 0 to use no icon (default).
-   LoadingTitle = "Projetinho Kali",
-   LoadingSubtitle = "by aiko",
-   ShowText = "Menu", -- for mobile users to unhide Rayfield, change if you'd like
+   LoadingTitle = "Carregando script HUB",
+   LoadingSubtitle = "by aikoDev",
+   ShowText = "HUB", -- for mobile users to unhide Rayfield, change if you'd like
    Theme = "Default", -- Check https://docs.sirius.menu/rayfield/configuration/themes
 
    ToggleUIKeybind = "K", -- The keybind to toggle the UI visibility (string like "K" or Enum.KeyCode)
@@ -292,7 +292,7 @@ local Window = Rayfield:CreateWindow({
    }
 })
 
-local MainTab = Window:CreateTab("Aba Principal", 4483362458) -- Title, Image
+local MainTab = Window:CreateTab("Menu Principal", 4483362458) -- Title, Image
 
 local MainSection = MainTab:CreateSection("Principal")
 
