@@ -2,6 +2,7 @@ local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
 local TweenService = game:GetService("TweenService")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
 local lp = Players.LocalPlayer
 local char = lp.Character or lp.CharacterAdded:Wait()
@@ -255,6 +256,20 @@ local function speedHack(ativo)
     end
 end
 
+local hackpc
+local function hackingpc(ativo)
+    if ativo then
+        hackpc = RunService.Heartbeat:Connect(function()
+            ReplicatedStorage:WaitForChild("RemoteEvent"):FireServer("SetPlayerMinigameResult", true)
+        end)
+    else
+        if hackpc then
+            hackpc:Disconnect()
+            hackpc = nil
+        end
+    end
+end
+
 local Window = Rayfield:CreateWindow({
    Name = "Projeto Kali",
    Icon = 0, -- Icon in Topbar. Can use Lucide Icons (string) or Roblox Image (number). 0 to use no icon (default).
@@ -351,6 +366,23 @@ local TeleportButton = MainTab:CreateButton({
     Rayfield:Notify({
         Title = "Teleport",
         Content = string.format("A lista de usuários foi atualizada com sucesso!"),
+        Duration = 6.5,
+        Image = 4483362458,
+    })
+   end,
+})
+
+local SurvivorSection = MainTab:CreateSection("Sobrevivente")
+
+local HackPcToggle = MainTab:CreateToggle({
+   Name = "Hack PC",
+   CurrentValue = false,
+   Flag = "HackPcToggle", -- A flag is the identifier for the configuration file; make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+   Callback = function(Value)
+    hackingpc(Value)
+    Rayfield:Notify({
+        Title = "Hack PC",
+        Content = string.format("A função hack pc está habilitado como %s", totring(Value))
         Duration = 6.5,
         Image = 4483362458,
     })
