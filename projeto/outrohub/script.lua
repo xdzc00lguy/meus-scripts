@@ -1,4 +1,4 @@
-local taxa = 0.1
+local taxa = 0.3
 local epoch = 1000
 local neuronios_ocultos = 0
 local entradas = {}
@@ -65,7 +65,7 @@ local function prever(entrada)
     end
     local resultado = {}
     for nome, neuronio in pairs(saidas) do
-        resultado[nome] = calculo(neuronio, entrada)
+        resultado[nome] = calculo(neuronio, oculta)
     end
     return resultado, oculta
 end
