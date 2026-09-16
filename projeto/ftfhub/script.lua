@@ -270,6 +270,44 @@ local function hackingpc(ativo)
     end
 end
 
+local function playerProximo()
+    for _,v in ipairs(Players:GetPlayers()) do
+        if v.UserId ~= lp.UserId and v.Character then
+            local root = v.Character:FindFirstChild("HumanoidRootPart")
+            local distancia = (root.Position - rootPart.Position).Magnitude
+            if distancia <= 10 then
+                return v
+            end
+        end
+    end
+end
+
+local auraBeastAtivo
+local auraUpdate = 0
+local function aurabeast(ativo)
+    if ativo then
+        auraBeastAtivo = RunService.Heartbeat:Connect(function()
+            local agora = os.clock()
+            if auraUpdate and agora - auraUpdate < 1 then return end
+            auraUpdate = agora
+            local plr = playerProximo()
+            if plr and plr.Character then
+                local torso = plr.Character.Torso
+                if torso then
+                    char:WaitForChild("Hammer"):WaitForChild("HammerEvent"):FireServer("HammerHit", torso)
+                    task.wait(0.5)
+                    char:WaitForChild("Hammer"):WaitForChild("HammerEvent"):FireServer("HammerTieUp", torso, torso.Position)
+                end
+            end
+        end)
+    else
+        if auraBeastAtivo then
+            auraBeastAtivo:Disconnect()
+            auraBeastAtivo = nil
+        end
+    end
+end
+
 local Window = Rayfield:CreateWindow({
    Name = "Flee The Facility HUB",
    Icon = 0, -- Icon in Topbar. Can use Lucide Icons (string) or Roblox Image (number). 0 to use no icon (default).
@@ -369,6 +407,17 @@ local TeleportButton = MainTab:CreateButton({
         Duration = 6.5,
         Image = 4483362458,
     })
+   end,
+})
+
+local BeastSection = MainTab:CreateSection("Besta")
+
+local AuraBeastToggle = MainTab:CreateToggle({
+   Name = "Aura Beast",
+   CurrentValue = false,
+   Flag = "AuraBeastToggle", -- A flag is the identifier for the configuration file; make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+   Callback = function(Value)
+    aurabeast(Value)
    end,
 })
 
