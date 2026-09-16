@@ -335,7 +335,18 @@ local function andar(destino)
         if wp.Action == Enum.PathWaypointAction.Jump then
             hum.Jump = true
         end
-        hum:MoveTo(wp.Position)
+        if wp.Label == "Porta" then
+            hum:MoveTo(wp.Position)
+            ReplicatedStorage:WaitForChild("RemoteEvent"):FireServer("Input","Action",true)
+            task.wait(5)
+        elseif wp.Label == "Ventilacao" then
+            hum:MoveTo(wp.Position)
+            ReplicatedStorage:WaitForChild("RemoteEvent"):FireServer("Input","Crawl",true)
+            task.wait(1)
+        else
+            hum:MoveTo(wp.Position)
+            ReplicatedStorage:WaitForChild("RemoteEvent"):FireServer("Input","Crawl",false)
+        end
         local inicio = os.clock()
         local ultimaDistancia = math.huge
         while true do
