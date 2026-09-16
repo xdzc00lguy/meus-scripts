@@ -123,6 +123,7 @@ end
 
 local Players = game:GetService("Players")
 local PathfindingService = game:GetService("PathfindingService")
+local RunService = game:GetService("RunService")
 
 local lp = Players.LocalPlayer
 local char = lp.Character or lp.CharacterAdded:Wait()
@@ -171,4 +172,22 @@ local function andar(destino)
         end
         ultimaPos = atualPos
     end
+end
+
+local function detectarPlayer(distancia)
+    local maisProximo = nil
+    local distanciaMinima = distancia
+    for _,v in ipairs(Players:GetPlayers()) do
+        if v.Character or v.CharacterAdded:Wait() then
+            local root = v.Character:FindFirstChild("HumanoidRootPart")
+            if root then
+                local distancia = (root.Position - rootPart.Position).Magnitude
+                if distancia <= distanciaMinima then
+                    distanciaMinima = distancia
+                    maisProximo = v
+                end
+            end
+        end
+    end
+    return maisProximo
 end
