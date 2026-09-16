@@ -3,6 +3,7 @@ local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
 local TweenService = game:GetService("TweenService")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local PathfindingService = game:GetService("PathfindingService")
 
 local lp = Players.LocalPlayer
 local char = lp.Character or lp.CharacterAdded:Wait()
@@ -305,6 +306,56 @@ local function aurabeast(ativo)
             auraBeastAtivo:Disconnect()
             auraBeastAtivo = nil
         end
+    end
+end
+
+local function criarPath(destino)
+    local path = PathfindingService:CriarPath({
+        AgentRadius = 2,
+        AgentHeight = 5,
+        AgentCanClimb = true,
+        AgentCanJump = true,
+        WaypointSpacing = 10,
+        Costs = {
+            Porta = 5,
+            Janela = 3,
+            Ventilacao = 3
+        }
+        path:ComputeAsync(rootPart.Position, destino)
+        return path
+    })
+end
+
+local function andar(destino)
+    local path = criarPath(destino)
+    local waypoints = path:GetWaypoints()
+    local waypoint = 1
+    while waypoint <= #waypoints do
+        local wp = waypoints[waypoint]
+        if wp.Action == Enum.PathWaypointAction.Jump then
+            hum.Jump = true
+        end
+        hum:MoveTo(wp.Position)
+        local inicio = os.clock()
+        local ultimaDistancia = math.huge
+        while true do
+            task.wait(0.1)
+            local distancia = (rootPart.Position - wp.Position).Magnitude
+            if distancia < 3 then
+                break
+            end
+            if os.clock() - inicio >= 2 then
+                if distancia >= ultimaDistancia - 0.5 then
+                    path = criarPath(destino)
+                    waypoints = path:GetWaypoints()
+                    waypoint = 1
+                    break
+                end
+                inicio = os.clock()
+            end
+            ultimaDistancia = distancia
+        end
+        waypoint += 1
     end
 end
 
