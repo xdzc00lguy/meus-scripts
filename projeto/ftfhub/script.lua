@@ -321,9 +321,9 @@ local function criarPath(destino)
             Janela = 3,
             Ventilacao = 3
         }
-        path:ComputeAsync(rootPart.Position, destino)
-        return path
     })
+    path:ComputeAsync(rootPart.Position, destino)
+    return path
 end
 
 local function andar(destino)
@@ -337,14 +337,17 @@ local function andar(destino)
         end
         if wp.Label == "Porta" then
             hum:MoveTo(wp.Position)
+            hum.MoveToFinished:Wait()
             ReplicatedStorage:WaitForChild("RemoteEvent"):FireServer("Input","Action",true)
             task.wait(5)
         elseif wp.Label == "Ventilacao" then
             hum:MoveTo(wp.Position)
+            hum.MoveToFinished:Wait()
             ReplicatedStorage:WaitForChild("RemoteEvent"):FireServer("Input","Crawl",true)
             task.wait(1)
         else
             hum:MoveTo(wp.Position)
+            task.wait(1)
             ReplicatedStorage:WaitForChild("RemoteEvent"):FireServer("Input","Crawl",false)
         end
         local inicio = os.clock()
