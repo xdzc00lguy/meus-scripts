@@ -309,6 +309,7 @@ local function aurabeast(ativo)
     end
 end
 
+--[[
 local function modificadores()
     for _,v in ipairs(workspace:GetDescendants()) do
         local mapa = v:GetAttribute("MapName")
@@ -383,6 +384,7 @@ local function andar(destino)
         waypoint += 1
     end
 end
+]]
 
 local Window = Rayfield:CreateWindow({
    Name = "Flee The Facility HUB",
