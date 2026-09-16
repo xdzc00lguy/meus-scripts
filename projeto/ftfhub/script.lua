@@ -309,6 +309,24 @@ local function aurabeast(ativo)
     end
 end
 
+local function modificadores()
+    for _,v in ipairs(workspace:GetDescendants()) do
+        local mapa = v:GetAttribute("MapName")
+        if mapa then
+            for _,p in pairs(v:GetDescendants()) do
+                local porta = p:FindFirstChild("Door")
+                local modificador = p:FindFirstChild("PathfindingModifier")
+                if porta and not modificador then
+                    local pfm = Instance.new("PathfindingModifier")
+                    pfm.Label = "Porta"
+                    pfm.PassThrough = true
+                    pfm.Parent = porta
+                end
+            end
+        end
+    end
+end
+
 local function criarPath(destino)
     local path = PathfindingService:CriarPath({
         AgentRadius = 2,
@@ -318,8 +336,6 @@ local function criarPath(destino)
         WaypointSpacing = 10,
         Costs = {
             Porta = 5,
-            Janela = 3,
-            Ventilacao = 3
         }
     })
     path:ComputeAsync(rootPart.Position, destino)
@@ -340,11 +356,6 @@ local function andar(destino)
             hum.MoveToFinished:Wait()
             ReplicatedStorage:WaitForChild("RemoteEvent"):FireServer("Input","Action",true)
             task.wait(5)
-        elseif wp.Label == "Ventilacao" then
-            hum:MoveTo(wp.Position)
-            hum.MoveToFinished:Wait()
-            ReplicatedStorage:WaitForChild("RemoteEvent"):FireServer("Input","Crawl",true)
-            task.wait(1)
         else
             hum:MoveTo(wp.Position)
             task.wait(1)
