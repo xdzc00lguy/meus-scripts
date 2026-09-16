@@ -120,3 +120,55 @@ for i = 0, epoch do
         end
     end
 end
+
+local Players = game:GetService("Players")
+local PathfindingService = game:GetService("PathfindingService")
+
+local lp = Players.LocalPlayer
+local char = lp.Character or lp.CharacterAdded:Wait()
+local hum = char:WaitForChild("Humanoid")
+local rootPart = char:WaitForChild("HumanoidRootPart")
+
+local function criarPath(destino)
+    local path = PathfindingService:CreatePath({
+        AgentRadius = 10,
+        AgentHeight = 5,
+        AgentCanClimb = true,
+        AgentCanJump = true,
+        WaypointSpacing = 10
+    })
+    path:ComputeAsync(rootPart.Position, destino)
+    return path
+end
+
+local function andar(destino)
+    local path = criarPath(destino)
+    if not path then return end
+    local tempo = 0
+    local ultimaPos = rootPart.Position
+    local waypoints = path:GetWaypoints()
+    local waypoint = 1
+    while waypoint <= #waypoints do
+        local wp = waypoints[waypoint]
+        if wp.Action == Enum.PathWaypointAction.Jump then
+            hum.Jump = true
+        end
+        hum:MoveTo(wp.Position)
+        local chegou = hum.MoveToFinished:Wait()
+        if chegou then
+            waypoint += 1
+        end
+        local atualPos = rootPart.Position
+        local distancia = (ultimaPos - atualPos).Magnitude
+        if distancia <= 2 then
+            tempo += 0.1
+        end
+        if tempo >= 1 then
+            tempo = 0
+            path:ComputeAsync(rootPart.Position, destino)
+            waypoint = 1
+            waypoints = path:GetWaypoints()
+        end
+        ultimaPos = atualPos
+    end
+end
