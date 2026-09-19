@@ -382,6 +382,7 @@ local function andar(destino)
     end
 end
 
+--[[
 local function encontrarPcFarm(ativo)
     for _,v in ipairs(workspace:GetDescendants()) do
         local mapa = v:GetAttribute("MapName")
@@ -431,6 +432,7 @@ local function farmpc(ativo)
         farmThread = nil
     end)
 end
+]]
 
 local Window = Rayfield:CreateWindow({
    Name = "Flee The Facility HUB",
@@ -562,6 +564,7 @@ local HackPcToggle = MainTab:CreateToggle({
    end,
 })
 
+--[[
 local FarmPcToggle = MainTab:CreateToggle({
    Name = "Auto Farm Pc",
    CurrentValue = false,
@@ -570,6 +573,7 @@ local FarmPcToggle = MainTab:CreateToggle({
     farmpc(Value)
    end,
 })
+]]
 
 local VisualSection = MainTab:CreateSection("Visual")
 
