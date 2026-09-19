@@ -397,18 +397,39 @@ local function encontrarPcFarm(ativo)
     end
 end
 
+local farmAtivo = false
+local farmThread = nil
 local function farmpc(ativo)
-    while ativo and task.wait() do
-        local pc = encontrarPcFarm()
-        if pc then
-            andar(pc:GetPivot().Position)
-            hackingpc(true)
-            while not pc.Color == Color3.fromRGB(40, 127, 71) do
-                ReplicatedStorage:WaitForChild("RemoteEvent"):FireServer("Input","Action",true)
-            end
-            hackingpc(false)
-        end
+    farmAtivo = ativo
+    if not ativo then
+        hackingpc(false)
+        return
     end
+    if farmThread then
+        return
+    end
+    farmThread = task.spawn(function()
+        while farmAtivo do
+            local pc = encontrarPcFarm()
+            if pc then
+                andar(pc:GetPivot().Position)
+                hackingpc(true)
+                local screen = pc:FindFirstChild("Screen")
+                if screen then
+                    while farmAtivo and screen.Color ~= Color3.fromRGB(40, 127, 71) do
+                        task.wait(0.2)
+                        ReplicatedStorage:WaitForChild("RemoteEvent"):FireServer("Input","Action",true)
+                    end
+                end
+                hackingpc(false)
+            else
+                task.wait(1)
+            end
+            task.wait(0.5)
+        end
+        hackingpc(false)
+        farmThread = nil
+    end)
 end
 
 local Window = Rayfield:CreateWindow({
