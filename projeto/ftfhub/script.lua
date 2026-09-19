@@ -4,6 +4,7 @@ local RunService = game:GetService("RunService")
 local TweenService = game:GetService("TweenService")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local PathfindingService = game:GetService("PathfindingService")
+local TeleportService = game:GetService("TeleportService")
 
 local lp = Players.LocalPlayer
 local char = lp.Character or lp.CharacterAdded:Wait()
@@ -592,6 +593,17 @@ local DetectPcEspToggle = MainTab:CreateToggle({
    Flag = "EspPc", -- A flag is the identifier for the configuration file; make sure every element has a different flag if you're using configuration saving to ensure no overlaps
    Callback = function(Value)
     detectPc(Value)
+   end,
+})
+
+local MiscSection = MainTab:CreateSection("Misc")
+
+local RejoinButton = MainTab:CreateButton({
+   Name = "Rejoin",
+   Callback = function()
+    local gameId = game.placeId
+    local jobId = game.jobId
+    TeleportService:TeleportToPlaceInstance(gameId, jobId, lp)
    end,
 })
 
