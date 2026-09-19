@@ -398,7 +398,7 @@ local function encontrarPcFarm(ativo)
 end
 
 local function farmpc(ativo)
-    while ativo then
+    while ativo and task.wait() do
         local pc = encontrarPcFarm()
         if pc then
             andar(pc:GetPivot().Position)
