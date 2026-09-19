@@ -309,7 +309,6 @@ local function aurabeast(ativo)
     end
 end
 
---[[
 local function modificadores()
     for _,v in ipairs(workspace:GetDescendants()) do
         local mapa = v:GetAttribute("MapName")
@@ -384,7 +383,21 @@ local function andar(destino)
         waypoint += 1
     end
 end
-]]
+
+local function encontrarPcFarm(ativo)
+    for _,v in ipairs(workspace:GetDescendants()) do
+        local mapa = v:GetAttribute("MapName")
+        if mapa then
+            for _,p in pairs(v:GetChildren()) do
+                local pc = p:FindFirstChild("ComputerTable")
+                local tela = pc and pc:FindFirstChild("Screen")
+                if tela and tela.Color ~= Color3.fromRGB() then
+                    return pc
+                end
+            end
+        end
+    end
+end
 
 local Window = Rayfield:CreateWindow({
    Name = "Flee The Facility HUB",
