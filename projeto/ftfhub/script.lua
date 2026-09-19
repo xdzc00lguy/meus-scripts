@@ -358,8 +358,6 @@ local function andar(destino)
             task.wait(5)
         else
             hum:MoveTo(wp.Position)
-            task.wait(1)
-            ReplicatedStorage:WaitForChild("RemoteEvent"):FireServer("Input","Crawl",false)
         end
         local inicio = os.clock()
         local ultimaDistancia = math.huge
@@ -391,10 +389,24 @@ local function encontrarPcFarm(ativo)
             for _,p in pairs(v:GetChildren()) do
                 local pc = p:FindFirstChild("ComputerTable")
                 local tela = pc and pc:FindFirstChild("Screen")
-                if tela and tela.Color ~= Color3.fromRGB() then
+                if tela and tela.Color ~= Color3.fromRGB(40, 127, 71) then
                     return pc
                 end
             end
+        end
+    end
+end
+
+local function farmpc(ativo)
+    while ativo then
+        local pc = encontrarPcFarm()
+        if pc then
+            andar(pc:GetPivot().Position)
+            hackingpc(true)
+            while not pc.Color == Color3.fromRGB(40, 127, 71) do
+                ReplicatedStorage:WaitForChild("RemoteEvent"):FireServer("Input","Action",true)
+            end
+            hackingpc(false)
         end
     end
 end
@@ -526,6 +538,15 @@ local HackPcToggle = MainTab:CreateToggle({
         Duration = 6.5,
         Image = 4483362458,
     })
+   end,
+})
+
+local FarmPcToggle = MainTab:CreateToggle({
+   Name = "Auto Farm Pc",
+   CurrentValue = false,
+   Flag = "FarmPcToggle", -- A flag is the identifier for the configuration file; make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+   Callback = function(Value)
+    farmpc(Value)
    end,
 })
 
