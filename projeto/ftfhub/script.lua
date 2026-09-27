@@ -184,7 +184,7 @@ local function detectPc(ativo)
     if ativo then
         detectPcAtivo = RunService.Heartbeat:Connect(function()
             local agora = os.clock()
-            if ultimoUpdate and agora - ultimoUpdate < 1 then
+            if ultimoUpdate and agora - ultimoUpdate < 2 then
                 return
             end
             ultimoUpdate = agora
@@ -309,131 +309,6 @@ local function aurabeast(ativo)
         end
     end
 end
-
-local function modificadores()
-    for _,v in ipairs(workspace:GetDescendants()) do
-        local mapa = v:GetAttribute("MapName")
-        if mapa then
-            for _,p in pairs(v:GetDescendants()) do
-                local porta = p:FindFirstChild("Door")
-                local modificador = p:FindFirstChild("PathfindingModifier")
-                if porta and not modificador then
-                    local pfm = Instance.new("PathfindingModifier")
-                    pfm.Label = "Porta"
-                    pfm.PassThrough = true
-                    pfm.Parent = porta
-                end
-            end
-        end
-    end
-end
-
-local function criarPath(destino)
-    local path = PathfindingService:CriarPath({
-        AgentRadius = 2,
-        AgentHeight = 5,
-        AgentCanClimb = true,
-        AgentCanJump = true,
-        WaypointSpacing = 10,
-        Costs = {
-            Porta = 5,
-        }
-    })
-    path:ComputeAsync(rootPart.Position, destino)
-    return path
-end
-
-local function andar(destino)
-    local path = criarPath(destino)
-    local waypoints = path:GetWaypoints()
-    local waypoint = 1
-    while waypoint <= #waypoints do
-        local wp = waypoints[waypoint]
-        if wp.Action == Enum.PathWaypointAction.Jump then
-            hum.Jump = true
-        end
-        if wp.Label == "Porta" then
-            hum:MoveTo(wp.Position)
-            hum.MoveToFinished:Wait()
-            ReplicatedStorage:WaitForChild("RemoteEvent"):FireServer("Input","Action",true)
-            task.wait(5)
-        else
-            hum:MoveTo(wp.Position)
-        end
-        local inicio = os.clock()
-        local ultimaDistancia = math.huge
-        while true do
-            task.wait(0.1)
-            local distancia = (rootPart.Position - wp.Position).Magnitude
-            if distancia < 3 then
-                break
-            end
-            if os.clock() - inicio >= 2 then
-                if distancia >= ultimaDistancia - 0.5 then
-                    path = criarPath(destino)
-                    waypoints = path:GetWaypoints()
-                    waypoint = 1
-                    break
-                end
-                inicio = os.clock()
-            end
-            ultimaDistancia = distancia
-        end
-        waypoint += 1
-    end
-end
-
---[[
-local function encontrarPcFarm(ativo)
-    for _,v in ipairs(workspace:GetDescendants()) do
-        local mapa = v:GetAttribute("MapName")
-        if mapa then
-            for _,p in pairs(v:GetChildren()) do
-                local pc = p:FindFirstChild("ComputerTable")
-                local tela = pc and pc:FindFirstChild("Screen")
-                if tela and tela.Color ~= Color3.fromRGB(40, 127, 71) then
-                    return pc
-                end
-            end
-        end
-    end
-end
-
-local farmAtivo = false
-local farmThread = nil
-local function farmpc(ativo)
-    farmAtivo = ativo
-    if not ativo then
-        hackingpc(false)
-        return
-    end
-    if farmThread then
-        return
-    end
-    farmThread = task.spawn(function()
-        while farmAtivo do
-            local pc = encontrarPcFarm()
-            if pc then
-                andar(pc:GetPivot().Position)
-                hackingpc(true)
-                local screen = pc:FindFirstChild("Screen")
-                if screen then
-                    while farmAtivo and screen.Color ~= Color3.fromRGB(40, 127, 71) do
-                        task.wait(0.2)
-                        ReplicatedStorage:WaitForChild("RemoteEvent"):FireServer("Input","Action",true)
-                    end
-                end
-                hackingpc(false)
-            else
-                task.wait(1)
-            end
-            task.wait(0.5)
-        end
-        hackingpc(false)
-        farmThread = nil
-    end)
-end
-]]
 
 local Window = Rayfield:CreateWindow({
    Name = "Flee The Facility HUB",
